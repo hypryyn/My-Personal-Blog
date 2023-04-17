@@ -44,6 +44,12 @@ app.post("/compose", function(req, res){
   };
   posts.push(post);
   res.redirect("/");
+  console.log(post.content.length);
+  if (post.content.length > 95 ) {
+    console.log("true")
+  } else {
+    console.log("false")
+  };
 });
 
 app.get('/posts/:postName', function (req, res) {
@@ -61,7 +67,6 @@ app.get('/posts/:postName', function (req, res) {
   });
  
 });
-
 
 
 app.listen(3000, function () {
