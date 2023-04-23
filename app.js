@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const ejs = require("ejs");
 const _ = require("lodash");
 
@@ -15,6 +16,20 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+mongoose.connect("mongodb://127.0.0.1:27017/blogDB")
+    .then(() => console.log('Connected to mongoose database!'));
+
+const postSchema = {
+  title: String,
+  content: String
+};
+
+const Post = mongoose.model("Post", postSchema);
+
+
+
+
 
 let posts = [];
 
@@ -38,18 +53,22 @@ app.get("/compose", function(req,res){
 })
 
 app.post("/compose", function(req, res){
-  const post = {
+  const post = new Post ({
     title: req.body.postTitle,
     content: req.body.postBody
-  };
-  posts.push(post);
+  });
+  post.save()
+  // .then(err => {
+  //   if (!err) {
+  //   }
+  // })
   res.redirect("/");
-  console.log(post.content.length);
-  if (post.content.length > 95 ) {
-    console.log("true")
-  } else {
-    console.log("false")
-  };
+  // console.log(post.content.length);
+  // if (post.content.length > 95 ) {
+  //   console.log("true")
+  // } else {
+  //   console.log("false")
+  // };
 });
 
 app.get('/posts/:postName', function (req, res) {
