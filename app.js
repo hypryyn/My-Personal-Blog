@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 mongoose.connect("mongodb://127.0.0.1:27017/blogDB")
-    .then(() => console.log('Connected to mongoose database!'));
+  .then(() => console.log('Connected to mongoose database!'));
 
 const postSchema = {
   title: String,
@@ -40,39 +40,39 @@ app.get("/", function (req, res) {
   // });
 
   Post.find()
-  .then(posts=>{
-    res.render("home", {
-      startingContent: homeStartingContent,
-      posts:posts
+    .then(posts => {
+      res.render("home", {
+        startingContent: homeStartingContent,
+        posts: posts
+      });
     });
-  });
 });
 
 app.get("/about", function (req, res) {
-  res.render("about", {aboutContent: aboutContent});
+  res.render("about", { aboutContent: aboutContent });
 });
 
-app.get("/contact", function (req,res ){
-  res.render("contact", {contactContent: contactContent});
+app.get("/contact", function (req, res) {
+  res.render("contact", { contactContent: contactContent });
 });
 
-app.get("/compose", function(req,res){
+app.get("/compose", function (req, res) {
   res.render("compose")
 })
 
-app.post("/compose", function(req, res){
-  const post = new Post ({
+app.post("/compose", function (req, res) {
+  const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody
   });
   post.save()
-  .then(()=>{
-    console.log("Post added to postDB");
-    res.redirect("/");
-  })
-  .catch(err=>{
-    res.status(400).send("Unable to save post to postDB")
-  })
+    .then(() => {
+      console.log("Post added to postDB");
+      res.redirect("/");
+    })
+    .catch(err => {
+      res.status(400).send("Unable to save post to postDB")
+    })
   // console.log(post.content.length);
   // if (post.content.length > 95 ) {
   //   console.log("true")
@@ -81,20 +81,28 @@ app.post("/compose", function(req, res){
   // };
 });
 
-app.get('/posts/:postName', function (req, res) {
-  let requestedTitle = _.lowerCase(req.params.postName);
-  
-  posts.forEach(function(post){
-    const storedTitle = _.lowerCase(post.title);
+app.get('/posts/:postId', function (req, res) {
+  const requestedPostId = req.params.postId;
 
-    if ( requestedTitle === storedTitle) {
+  Post.findOne({ _id: requestedPostId })
+    .then((post) => {
       res.render("post", {
         title: post.title,
         content: post.content
       });
-    }
-  });
- 
+    });
+
+  // let requestedTitle = _.lowerCase(req.params.postName);
+  // posts.forEach(function(post){
+  //   const storedTitle = _.lowerCase(post.title);
+  //   if ( requestedTitle === storedTitle) {
+  //     res.render("post", {
+  //       title: post.title,
+  //       content: post.content
+  //     });
+  //   }
+  // });
+
 });
 
 
