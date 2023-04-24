@@ -34,9 +34,17 @@ const Post = mongoose.model("Post", postSchema);
 let posts = [];
 
 app.get("/", function (req, res) {
-  res.render("home", 
-  { startingContent: homeStartingContent, 
-    posts: posts 
+  // res.render("home", 
+  // { startingContent: homeStartingContent, 
+  //   posts: posts 
+  // });
+
+  Post.find()
+  .then(posts=>{
+    res.render("home", {
+      startingContent: homeStartingContent,
+      posts:posts
+    });
   });
 });
 
@@ -58,11 +66,13 @@ app.post("/compose", function(req, res){
     content: req.body.postBody
   });
   post.save()
-  // .then(err => {
-  //   if (!err) {
-  //   }
-  // })
-  res.redirect("/");
+  .then(()=>{
+    console.log("Post added to postDB");
+    res.redirect("/");
+  })
+  .catch(err=>{
+    res.status(400).send("Unable to save post to postDB")
+  })
   // console.log(post.content.length);
   // if (post.content.length > 95 ) {
   //   console.log("true")
