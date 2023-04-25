@@ -85,11 +85,14 @@ app.get('/posts/:postId', function (req, res) {
   const requestedPostId = req.params.postId;
 
   Post.findOne({ _id: requestedPostId })
-    .then((post) => {
+    .then(post => {
       res.render("post", {
         title: post.title,
         content: post.content
-      });
+      })
+        // .catch(err => {
+        //   console.log(err);
+        // });
     });
 
   // let requestedTitle = _.lowerCase(req.params.postName);
@@ -105,6 +108,31 @@ app.get('/posts/:postId', function (req, res) {
 
 });
 
+app.get("/update/:updateId", function (req, res) {
+  const updateId = req.params.postId;
+
+  post.findOne({ _id: updateId })
+    .then(foundDocument => {
+      res.render("update", {
+        updatedTitle: foundDocument.title,
+        updatedContent: foundDocument.postContent,
+        id: updateId
+      });
+    });
+});
+
+app.post("update", function (req, res) {
+  const updatedTitle = req.body.updatedTitle;
+  const updatedContent = req.body.updatedContent;
+  const updateId = req.body.id;
+
+  post.findByIdAndUpdate({ _id: updateId },
+    {
+      title: updatedTitle,
+      content: updatedContent
+    })
+    .then(()=> res.redirect("/"));
+});
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");

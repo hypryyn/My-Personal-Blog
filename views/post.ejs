@@ -3,4 +3,8 @@
 <h1> <%=title%> </h1>
 <p> <%= content %></p>
 
+<form action="/update" method="get" id="edit-button">
+    <button class='btn btn-success' type="submit" id="edit-button">Edit Post</button>
+</form>
+
 <%- include('partials/footer'); -%>

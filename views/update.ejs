@@ -1,0 +1,16 @@
+<%- include('partials/header'); -%>
+
+<h1>Edit Post</h1>
+<form action="/update" method="post">
+    <div class="mb-3">
+        <label for="titleInput" class="form-label">Title</label>
+        <input type="text" class="form-control" name="updatedTitle" value="<%= updatedTitle %>" required>
+      </div>
+      <div class="mb-3">
+        <label for="postArea" class="form-label">Post</label>
+        <textarea class="form-control" rows="5" name="updatedPost" value="<%= updatedContent %>" required><%= updatedContent %></textarea>
+      </div>
+      <button class="btn btn-primary update" type="submit" name="id" value="<%= id %>">Update</button>
+</form>
+
+<%- include('partials/footer'); -%>
