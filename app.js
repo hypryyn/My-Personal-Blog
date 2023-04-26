@@ -109,19 +109,22 @@ app.get('/posts/:postId', function (req, res) {
 });
 
 app.get("/update/:updateId", function (req, res) {
-  const updateId = req.params.postId;
+  const requestedPostId = req.params.postId;
 
-  post.findOne({ _id: updateId })
-    .then(foundDocument => {
-      res.render("update", {
-        updatedTitle: foundDocument.title,
-        updatedContent: foundDocument.postContent,
-        id: updateId
-      });
+  Post.findOne({ _id: requestedPostId })
+    .then(post => {
+      res.render("post", {
+        title: post.title,
+        content: post.content
+      })
+        // .catch(err => {
+        //   console.log(err);
+        // });
     });
+
 });
 
-app.post("update", function (req, res) {
+app.post("/update", function (req, res) {
   const updatedTitle = req.body.updatedTitle;
   const updatedContent = req.body.updatedContent;
   const updateId = req.body.id;

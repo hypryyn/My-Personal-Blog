@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 
 <h1>Edit Post</h1>
-<form action="/update" method="post">
+<form action="/update" method="get">
     <div class="mb-3">
         <label for="titleInput" class="form-label">Title</label>
         <input type="text" class="form-control" name="updatedTitle" value="<%= updatedTitle %>" required>
@@ -12,5 +12,13 @@
       </div>
       <button class="btn btn-primary update" type="submit" name="id" value="<%= id %>">Update</button>
 </form>
-
+<!-- <form action="/compose" method="post">
+    <div class="form-group">
+        <label for="postTitle">Title</label>
+        <input class="form-control" type="text" name="postTitle">
+        <label for="post">Post</label>
+        <textarea class="form-control" name="postBody" id="" cols="30" rows="10"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit" name="button">Publish</button>
+</form> -->
 <%- include('partials/footer'); -%>
