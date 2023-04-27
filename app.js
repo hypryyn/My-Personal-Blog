@@ -90,9 +90,9 @@ app.get('/posts/:postId', function (req, res) {
         title: post.title,
         content: post.content
       })
-        // .catch(err => {
-        //   console.log(err);
-        // });
+      // .catch(err => {
+      //   console.log(err);
+      // });
     });
 
   // let requestedTitle = _.lowerCase(req.params.postName);
@@ -108,23 +108,24 @@ app.get('/posts/:postId', function (req, res) {
 
 });
 
-app.get("/update/:updateId", function (req, res) {
-  const requestedPostId = req.params.postId;
-
-  Post.findOne({ _id: requestedPostId })
-    .then(post => {
-      res.render("post", {
-        title: post.title,
-        content: post.content
-      })
-        // .catch(err => {
-        //   console.log(err);
-        // });
+app.get("/update/:postId", function (req, res) {
+  const updateId = req.params.postId;
+  Post.findOne({ _id: updateId })
+    .then(Posts => {
+      res.render("update",
+        {
+          updatedTitle: Posts.title,
+          updatedContent: Posts.content,
+          id: updateId
+        });
+    })
+    .catch(err => {
+      console.log(err);
     });
-
 });
 
 app.post("/update", function (req, res) {
+  // const updateId = req.params.updateId;
   const updatedTitle = req.body.updatedTitle;
   const updatedContent = req.body.updatedContent;
   const updateId = req.body.id;
@@ -134,7 +135,7 @@ app.post("/update", function (req, res) {
       title: updatedTitle,
       content: updatedContent
     })
-    .then(()=> res.redirect("/"));
+    .then(() => res.redirect("/"));
 });
 
 app.listen(3000, function () {
