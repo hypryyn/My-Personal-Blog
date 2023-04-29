@@ -12,7 +12,16 @@
             <button class="btn btn-danger" type="submit" id="delete-button">Delete</button>
         </form>
         <form action="/update/:_id" method="get" id="edit-button">
-            <button class='btn btn-success' type="submit" id="edit-button">Edit Post</button>
+            <button class='btn btn-success' type="submit" id="edit-button" onclick="fetch(`http://localhost:3000/update/644a6d4c6fbe854da2375c61`)">Edit Post</button>
         </form>
     </div>
+
+    <script>
+        const editButton = document.getElementById('edit-button');
+        editButton.addEventListener('click', () => {
+          fetch(`http://localhost:3000/update/644a6d4c6fbe854da2375c61`)
+            .catch(error => console.log(error));
+        })
+      </script>
+
     <%- include('partials/footer'); -%>

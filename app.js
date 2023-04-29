@@ -111,17 +111,13 @@ app.get('/posts/:postId', function (req, res) {
 app.get("/update/:_id", function (req, res) {
   const updateId = req.params._id;
   Post.findOne({ _id: updateId })
-    .then(foundDocument => {
-      if (foundDocument) {
-        res.render("update",
-          {
-            updatedTitle: foundDocument.title,
-            updatedContent: foundDocument.content,
-            id: updateId
-          });
-      } else {
-
-      }
+    .then(Posts => {
+      res.render("update",
+        {
+          updatedTitle: Posts.title,
+          updatedContent: Posts.content,
+          id: updateId
+        });
     })
     .catch(err => {
       console.log(err);
@@ -143,15 +139,21 @@ app.post("/update", function (req, res) {
 });
 
 app.post("/delete", function (req, res) {
-  const foundid = req.body.delete-button;
+  const foundid = req.body.delete - button;
 
-  Post.findByIdAndDelete(foundid)
+  post.findByIdAndDelete(foundid)
     .then((err) => {
       if (!err) {
         console.log("successfully deleted");
       }
     });
 })
+
+// const editButton = document.getElementById('edit-button');
+// editButton.addEventListener('click', () => {
+//   fetch(`http://localhost:3000/update/${whatever-the-id}`)
+//     .catch(error => console.log(error));
+// })
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
